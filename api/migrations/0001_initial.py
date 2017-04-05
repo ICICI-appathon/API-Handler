@@ -28,6 +28,7 @@ class Migration(migrations.Migration):
                 ('cardNumber', models.CharField(default=b'NULL', max_length=250)),
                 ('Limit', models.CharField(default=b'NULL', max_length=250)),
                 ('Type', models.CharField(default=b'NULL', max_length=250)),
+                ('Account', models.ForeignKey(blank=True, to='api.Account', null=True)),
             ],
             options={
             },
@@ -37,7 +38,17 @@ class Migration(migrations.Migration):
             name='cashWallet',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('Balance', models.CharField(default=b'NULL', max_length=250)),
+                ('Balance', models.IntegerField(default=0, max_length=250)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Currency',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('Currency', models.CharField(default=b'NULL', max_length=250)),
             ],
             options={
             },
@@ -60,7 +71,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('Ammount', models.CharField(default=b'NULL', max_length=250)),
-                ('timeFrame', models.ForeignKey(to='api.Customer')),
+                ('timeFrame', models.CharField(default=b'NULL', max_length=250)),
+                ('CustomerID', models.ForeignKey(to='api.Customer')),
             ],
             options={
             },
@@ -70,8 +82,8 @@ class Migration(migrations.Migration):
             name='forexTransactions',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('Ammount', models.CharField(default=b'NULL', max_length=250)),
-                ('Currency', models.CharField(default=b'NULL', max_length=250)),
+                ('Ammount', models.IntegerField(default=0, max_length=250)),
+                ('Currency', models.ForeignKey(to='api.Currency')),
                 ('CustomerID', models.ForeignKey(to='api.Customer')),
             ],
             options={
@@ -82,8 +94,20 @@ class Migration(migrations.Migration):
             name='forexWallet',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('Balance', models.CharField(default=b'NULL', max_length=250)),
-                ('Currency', models.CharField(default=b'NULL', max_length=250)),
+                ('Balance', models.IntegerField(default=0, max_length=250)),
+                ('Currency', models.ForeignKey(to='api.Currency')),
+                ('CustomerID', models.ForeignKey(to='api.Customer')),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='loansPolicies',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('loanID', models.CharField(default=b'NULL', max_length=250)),
+                ('Installment', models.CharField(default=b'NULL', max_length=250)),
                 ('CustomerID', models.ForeignKey(to='api.Customer')),
             ],
             options={
@@ -94,6 +118,7 @@ class Migration(migrations.Migration):
             name='Transaction',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('Location', models.CharField(default=b'NULL', max_length=250)),
                 ('TransactionID', models.CharField(default=b'NULL', max_length=250)),
                 ('Date', models.CharField(default=b'NULL', max_length=250)),
                 ('Time', models.CharField(default=b'NULL', max_length=250)),

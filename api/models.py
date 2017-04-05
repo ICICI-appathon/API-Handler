@@ -9,6 +9,7 @@ class Customer(models.Model):
     CustomerID = models.CharField(max_length = 250 , default = 'NULL')
     Name = models.CharField(max_length = 250 , default = 'NULL')
     Address = models.CharField(max_length = 250 , default = 'NULL')
+    Token = models.CharField(max_length = 250 , default = 'NULL')
     #  = models.CharField(max_length = 250 , default = 'NULL')
 
     # playid = models.CharField(max_length = 250 , default = 'NULL')
@@ -39,11 +40,11 @@ class Card(models.Model):
 
 class loansPolicies(models.Model):
     CustomerID = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    ID=models.CharField(max_length = 250 , default = 'NULL')
+    loanID=models.CharField(max_length = 250 , default = 'NULL')
     Installment = models.CharField(max_length = 250 , default = 'NULL')
   
     def __str__(self):
-        return self.accountNumber             
+        return self.loanID             
 
 class cashWallet(models.Model):
     CustomerID = models.ForeignKey(Customer, on_delete=models.CASCADE)
@@ -75,6 +76,8 @@ class transactionCategory(models.Model):
 
 
 class Transaction(models.Model):
+    Location = models.CharField(max_length = 250 , default = 'NULL')
+
     CustomerID = models.ForeignKey(Customer, on_delete=models.CASCADE)
     Type = models.ForeignKey(transactionType, on_delete=models.CASCADE  )
     TransactionID = models.CharField(max_length = 250 , default = 'NULL')
@@ -84,7 +87,7 @@ class Transaction(models.Model):
     Time = models.CharField(max_length = 250 , default = 'NULL')
     Account = models.ForeignKey(Account, on_delete=models.CASCADE , blank=True, null=True ) #account from which transaction is made .if cash this will be Null.
     Card = models.ForeignKey(Card, on_delete=models.CASCADE , blank=True, null=True ) #card from which transaction is made .if cash this will be Null.
-    Location = models.CharField(max_length = 250 , default = 'NULL')
+    Ammount = models.IntegerField(max_length = 250 , default = 0)
 
     def __str__(self):
         return self.TransactionID

@@ -7,4 +7,7 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^summary/(?P<cid>[a-zA-Z._^%$#!~@,-]+)$', 'api.views.Transactions', name='home'),
+
+
 )
